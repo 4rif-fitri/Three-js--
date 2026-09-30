@@ -9,7 +9,7 @@ let scene = new THREE.Scene()
 let cubeGeometry = new THREE.BoxGeometry(1,1,1)
 let cubeMaterial = new THREE.MeshBasicMaterial({color:"lightblue"})
 let cubeMash = new THREE.Mesh(cubeGeometry,cubeMaterial)
-let camera = new THREE.PerspectiveCamera(35, Width / Height, 0.1,30)
+let camera = new THREE.PerspectiveCamera(50, Width / Height, 0.1,30)
 
 camera.position.z = 4
 
@@ -19,8 +19,16 @@ scene.add(camera)
 let renderer = new THREE.WebGLRenderer({
   canvas: canvas
 })
+renderer.setSize(Width, Height)
 
 let controls = new OrbitControls(camera,canvas)
+controls.enableDamping = true
+controls.autoRotate = true
 
-renderer.setSize(Width,Height)
-renderer.render(scene,camera)
+function renderScence(){
+  controls.update()
+  renderer.render(scene,camera)
+  window.requestAnimationFrame(renderScence)
+}
+renderScence()
+
