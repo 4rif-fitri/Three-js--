@@ -8,7 +8,7 @@ let canvas = document.querySelector(".canvas")
 let axesHellper = new THREE.AxesHelper(2) 
 let scene = new THREE.Scene()
 let cubeGeometry = new THREE.BoxGeometry(1,1,1)
-let cubeMaterial = new THREE.MeshBasicMaterial({ color: "lightblue" })
+let cubeMaterial = new THREE.MeshBasicMaterial({ color: "lightblue" , wireframe: true})
 let cubeMaterial1 = new THREE.MeshBasicMaterial({ color: "red" })
 let cubeMash = new THREE.Mesh(cubeGeometry, cubeMaterial1)
 let cubeMash1 = new THREE.Mesh(cubeGeometry,cubeMaterial)
@@ -16,7 +16,11 @@ let cubeMash1 = new THREE.Mesh(cubeGeometry,cubeMaterial)
 let group = new THREE.Group()
 group.add(cubeMash)
 group.add(cubeMash1)
-group.rotateX(45)
+// group.rotateX(45)
+// cubeMash1.rotation.y = 45
+// cubeMash1.rotation.y = Math.PI * 0.25
+// cubeMash1.rotation.z = THREE.MathUtils.degToRad(45)
+// cubeMash1.rotation.y = THREE.MathUtils.degToRad(45)
 
 let camera = new THREE.PerspectiveCamera(50, Width / Height, 0.1, 30)
 let aspectRatio = Width/Height
@@ -65,9 +69,12 @@ renderer.setSize(Width, Height)
 renderer.setPixelRatio(maxpixelRatio)
 
 let controls = new OrbitControls(camera,canvas)
-// controls.enableDamping = true
-// controls.autoRotate = true
+controls.enableDamping = true
+controls.autoRotate = true
  
+let clock = new THREE.Clock()
+// let previousTime = 0
+
 window.addEventListener("resize", e => {
   Height = window.innerHeight
   Width = window.innerWidth
@@ -79,6 +86,14 @@ window.addEventListener("resize", e => {
 })
 
 function renderScence(){
+  let currentTime = clock.getElapsedTime()
+  // let delta = currentTime - previousTime
+  // previousTime = currentTime
+  // cubeMash1.rotation.x = THREE.MathUtils.degToRad(2) * delta * 50;  
+
+  // cubeMash1.scale.x = Math.sin(currentTime) + 1
+  // cubeMash1.scale.y = Math.sin(currentTime) - 1
+  
   controls.update()
   renderer.render(scene,camera)
   window.requestAnimationFrame(renderScence)
